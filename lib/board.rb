@@ -24,21 +24,22 @@ class Board
   end
 
   def first_pieces
-    rows[3][3] = Piece.new( :red, [3,3])
-    rows[3][4] = Piece.new( :blue, [3,4])
-    rows[4][4] = Piece.new( :red, [4,4])
-    rows[4][3] = Piece.new( :blue, [4,3])
+    rows[3][3] = Piece.new(:red, [3,3])
+    rows[3][4] = Piece.new(:blue, [3,4])
+    rows[4][4] = Piece.new(:red, [4,4])
+    rows[4][3] = Piece.new(:blue, [4,3])
   end
 
-  def place_piece(color, position)
+  def place_piece(position, color)
     x, y = position
-    @rows[x][y] = Piece.new(color, position )
+    @rows[x][y] = Piece.new(color, position)
   end
 
   def render
     system("clear")
-    @rows.each do |row|
-      row_string = ""
+    puts"    0   1   2   3   4   5   6   7"
+    @rows.each_with_index do |row, i|
+      row_string = "#{i} "
       row.each do |spot|
         if spot.nil?
           row_string += "|__|".colorize(:background => :yellow)
@@ -62,8 +63,10 @@ class Board
   end
 
   def pieces_to_flip(position, color)
-    raise "out of bounds" unless in_bounds?(position)
-    raise "already contains a piece" unless empty?(position)
+    #raise "out of bounds"
+    return [] unless in_bounds?(position)
+    #raise "already contains a piece"
+    return [] unless empty?(position)
     p_row, p_col = position
     flips = []
     #debugger
@@ -90,12 +93,11 @@ class Board
 
     end
 
-    if flips.count > 0
-      flips
-    else
-      false
-    end
+    flips
+  end
 
+  def valid_move?(position, color)
+    pieces_to_flip(position, color).empty? ? false : true
   end
 
 
