@@ -20,11 +20,11 @@ class Game
 
   def play
     player = @players[0]
-    until end?
+    until end?(player)
      @board.render
      received_move = false
 
-     until received_move || end?
+     until received_move || end?(player)
        move, color = input(player)
        received_move = @board.valid_move?(move, color)
      end
@@ -39,12 +39,11 @@ class Game
     end
   end
 
-  def end?
+  def end?(color)
     @board.rows.each do |row|
       row.each do |spot|
         if spot.nil?
-          if @board.valid_move?([row,spot], :red)||
-            @board.valid_move?([row,spot], :red)
+          if @board.valid_move?([row,spot], color)
             return true
           end
         end
