@@ -22,14 +22,18 @@ class Game
     player = @players[0]
     until end?
      @board.render
-     move, color = input(player)
-     if @board.valid_move?(move, color)
-       to_flip = @board.pieces_to_flip(move, color)
-       @board.place_piece(move, color)
-       to_flip.each do |x, y|
-         @board.rows[x][y].change_color
-       end
+     received_move = false
+
+     until received_move || end?
+       move, color = input(player)
+       received_move = @board.valid_move?(move, color)
      end
+     to_flip = @board.pieces_to_flip(move, color)
+     @board.place_piece(move, color)
+     to_flip.each do |x, y|
+       @board.rows[x][y].change_color
+     end
+
      player = (player == @players[0]) ? @players[1] : @players[0]
 
     end

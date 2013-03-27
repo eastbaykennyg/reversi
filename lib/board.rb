@@ -84,7 +84,7 @@ class Board
         x = t_row + row
         y = t_col + col
         test_pos = [x, y]
-        if empty?(test_pos) or !in_bounds?(test_pos)
+        if !in_bounds?(test_pos)|| empty?(test_pos)
           possible_flip = []
           break
         end
